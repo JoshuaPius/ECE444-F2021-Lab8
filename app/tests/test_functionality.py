@@ -35,8 +35,6 @@ def main():
         print ("Phrase: " + test_cases[ctr]["text"])
         print("Expected: " + test_cases[ctr]["expected"]+ " Actual: ", get_Verdict(test_cases[ctr]["text"]))
         print("Average Latency Over 100 Calls: " + str (get_latency(test_cases[ctr]["text"])) + " seconds")
-
-    print(get_Verdict("BOOK"))
     
 if __name__ == "__main__":
     main()
