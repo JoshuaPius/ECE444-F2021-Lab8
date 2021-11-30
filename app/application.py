@@ -1,5 +1,4 @@
-from flask import Flask
-from flask import Flask, render_template, request, session, Response
+from flask import Flask, jsonify
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
 import pickle
@@ -38,7 +37,7 @@ application.add_url_rule('/', 'index', (lambda: header_text +
 application.add_url_rule('/<username>', 'hello', (lambda username:
     header_text + say_hello(username) + home_link + footer_text))
 
-@application.route('/tweet/<text>', methods=['GET', 'POST'])
+@application.route('/tweet/<text>', methods=['GET'])
 def detemineValidity(text):
     loaded_model = None
     with open('basic_classifier.pkl','rb') as fid:
@@ -47,7 +46,8 @@ def detemineValidity(text):
     with open('count_vectorizer.pkl','rb') as vd:
         vectorier = pickle.load(vd)
     prediction = loaded_model.predict(vectorier.transform([text]))[0]
-    return prediction
+    response = jsonify(prediction)
+    return response
 
 # run the app.
 if __name__ == "__main__":
